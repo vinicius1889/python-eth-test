@@ -1,6 +1,7 @@
 import unittest
 from  utils.Utils import RPC
 from utils.Utils import Hex
+from utils.Utils import Hash
 from rpc.eth.enums.enums_eth_call import EnumsEthCall
 from rpc.eth.enums.enums_rpc_chains import EnumsRPCChains
 
@@ -53,5 +54,28 @@ class HexTestCase(unittest.TestCase):
         hex_with_x="0x736c6f636b6974"
         slockit = Hex.to_string(hex_with_x)
         self.assertEqual(slockit, "slockit")
+
+    def testing_string(self):
+        string = "abc"
+        result = (Hex.from_string_to_hex(string,32))
+        result_expected="6162630000000000000000000000000000000000000000000000000000000000"
+        self.assertEqual(result_expected, result)
+
+
+
+class HashTestCase(unittest.TestCase):
+
+    SIGNATURE_EXAMPLE="baz(uint32,bool)"
+
+    def test_signature_keccak(self):
+        result = Hash.keccak(HashTestCase.SIGNATURE_EXAMPLE, 4)
+        self.assertEqual(result, "cdcd77c0")
+
+    def test_signature_keccak_full(self):
+        result = Hash.keccak(HashTestCase.SIGNATURE_EXAMPLE)
+        self.assertEqual(result, "cdcd77c0992ec5bbfc459984220f8c45084cc24d9b6efed1fae540db8de801d2")
+
+
+
 
 

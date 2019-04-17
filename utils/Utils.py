@@ -4,6 +4,8 @@ import os
 import requests
 import json
 from  rpc.eth.enums.enums_execution_type import EnumsExecutionType
+from Crypto.Hash import  keccak
+
 
 
 def get_mock(item):
@@ -55,6 +57,8 @@ class RPC:
 
 class Hex:
 
+
+
     @staticmethod
     def to_string(param:str):
         if param.startswith("0x"):
@@ -67,9 +71,34 @@ class Hex:
 
 
     @staticmethod
-    def from_string_to_hex(param:str):
-        return param.encode("utf-8").hex()
+    def from_string_to_hex(param:str, pad_to_bytes=0):
+        hash =  param.encode("utf-8").hex()
+        if pad_to_bytes>0:
+            return hash.ljust(pad_to_bytes*2,'0')
+
+        return hash
+
 
     @staticmethod
-    def from_int_to_hex(param):
-        return hex(param)
+    def from_int_to_hex(param, pad_to_bytes=0):
+        result = hex(param)
+        if pad_to_bytes >0:
+            aux = result[2:]
+            return aux.zfill(pad_to_bytes*2)
+
+        return result
+
+
+class Hash:
+
+    @staticmethod
+    def keccak(string:str, length_in_bytes=0):
+        kek = keccak.new(digest_bits=256)
+        kek.update(string.encode("utf-8"))
+        hash = kek.hexdigest()
+        if length_in_bytes>0:
+            return hash[:length_in_bytes*2]
+        return hash
+
+
+
