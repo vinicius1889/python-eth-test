@@ -1,5 +1,6 @@
 import unittest
 from  utils.Utils import RPC
+from utils.Utils import Hex
 from rpc.eth.enums.enums_eth_call import EnumsEthCall
 from rpc.eth.enums.enums_rpc_chains import EnumsRPCChains
 
@@ -26,4 +27,31 @@ class UtilRPC(unittest.TestCase):
         name = EnumsEthCall.RPC_BLOCK_BY_NUMBER
 
         print(isinstance(name, EnumsEthCall))
+
+
+class HexTestCase(unittest.TestCase):
+
+    STRING_TO_BE_TESTED="SLOCKIT"
+    INTEGER_TO_BE_TESTED=16
+    HEXA_TO_BE_TESTED="0xa"
+
+
+    def testing_string_to_hex(self):
+        hexa_result = Hex.from_string_to_hex(HexTestCase.STRING_TO_BE_TESTED)
+        string_result = Hex.to_string(hexa_result)
+        self.assertEqual(string_result,HexTestCase.STRING_TO_BE_TESTED)
+
+    def testing_interger(self):
+        hexa_result = Hex.from_int_to_hex(HexTestCase.INTEGER_TO_BE_TESTED)
+        int_result = Hex.to_int(hexa_result)
+        self.assertEqual(int_result, HexTestCase.INTEGER_TO_BE_TESTED)
+
+    def testing_hexa(self):
+        self.assertEqual(Hex.to_int(HexTestCase.HEXA_TO_BE_TESTED), 10)
+
+    def testing_hexa_starting_with_x(self):
+        hex_with_x="0x736c6f636b6974"
+        slockit = Hex.to_string(hex_with_x)
+        self.assertEqual(slockit, "slockit")
+
 

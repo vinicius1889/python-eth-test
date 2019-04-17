@@ -53,3 +53,23 @@ class RPC:
         }
         return requests.post(url, data=json.dumps(body), headers=headers).json()
 
+class Hex:
+
+    @staticmethod
+    def to_string(param:str):
+        if param.startswith("0x"):
+            param = param[len("0x"):]
+        return bytearray.fromhex(param).decode()
+
+    @staticmethod
+    def to_int(param):
+        return int(param, 16)
+
+
+    @staticmethod
+    def from_string_to_hex(param:str):
+        return param.encode("utf-8").hex()
+
+    @staticmethod
+    def from_int_to_hex(param):
+        return hex(param)
