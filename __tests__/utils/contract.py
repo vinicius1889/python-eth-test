@@ -55,12 +55,10 @@ class ContractUtilTestcase(TestCase):
 
 
 
-    def test_id(self):
-        signature = " f( uint , uint32[] ,bytes10,bytes)"
-        ContractUtils().pre_compile_signature(signature)
 
     def test_calling_array(self):
         p = [0x456, 0x789]
         res = ContractUtils().getHexValue(p)
-        print("".join(res))
+        result = ("".join(res))
+        self.assertEqual("00000000000000000000000000000000000000000000000000000000000004560000000000000000000000000000000000000000000000000000000000000789",result)
 

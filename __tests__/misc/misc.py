@@ -1,5 +1,5 @@
 from unittest import TestCase
-
+from helper.generated.DemoEnum import DemoEnum
 class MiscTestCases(TestCase):
 
     SLOCKIT="slockit"
@@ -22,3 +22,5 @@ class MiscTestCases(TestCase):
         print(int(hex(1), 16))
 
 
+    def testing_demo_enum(self):
+        self.assertEqual("sam(bytes,bool,uint256[])", DemoEnum.SAM.value)
