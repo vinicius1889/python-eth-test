@@ -1,5 +1,5 @@
 from unittest import TestCase
-from utils.contract.contract import ContractUtils
+from src.utils.contract.contract import ContractUtils
 
 class ContractUtilTestcase(TestCase):
 

@@ -1,9 +1,9 @@
 import unittest
-from  utils.Utils import RPC
-from utils.Utils import Hex
-from utils.Utils import Hash
-from rpc.eth.enums.enums_eth_call import EnumsEthCall
-from rpc.eth.enums.enums_rpc_chains import EnumsRPCChains
+from src.utils.Utils import RPC
+from src.utils.Utils import Hex
+from src.utils.Utils import Hash
+from src.enums.enums_eth_call import EnumsEthCall
+from src.enums.enums_rpc_chains import EnumsRPCChains
 
 
 class UtilsTestCase(unittest.TestCase):
