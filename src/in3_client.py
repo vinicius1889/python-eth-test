@@ -1,23 +1,18 @@
 from src.modules.eth.ethereum import Ethereum
 from src.modules.ipfs.ipfs import IPFS
-from src.domain.in3_types import IN3Config
+from src.core.in3_core import In3Core
 
 
 class In3Client:
 
-    def __init__(self, config: IN3Config= None):
-        self.eth = Ethereum()
-        self.ipfs = IPFS()
-        self.__config: IN3Config = config
+    def __init__(self):
         self.wasm = None
         self.shh = None
+        self.in3_core = In3Core()
 
-    @staticmethod
-    def create_in3_client_from_default_config():
-        config = IN3Config.build_from_default_config()
-        in3 = In3Client(config)
-        return in3
+        self.eth = Ethereum(self.in3_core)
+        self.ipfs = IPFS()
 
-    def get_config(self):
-        return self.__config
+
+
 

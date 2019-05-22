@@ -1,32 +1,31 @@
 from unittest import TestCase
 from src.in3_client import In3Client
-from src.domain.in3_types import IN3Config
-from src.enums.enums_chains import EnumsChains
+
 
 class In3ClientTestCase(TestCase):
 
-    @staticmethod
-    def create_in3_client_instance():
-        return In3Client()
 
-    def test_new_incubed(self):
-        self.assertIsNotNone(In3ClientTestCase.create_in3_client_instance())
-
-    def test_new_ipfs_api(self):
-        self.assertIsNotNone(In3ClientTestCase.create_in3_client_instance().ipfs)
-
-    def test_build_config_from_json(self):
-        in3 = In3Client.create_in3_client_from_default_config()
-        self.assertIsNotNone(in3)
-
-    def test_build_in3(self):
-        config = IN3Config()
-        config.chainId = EnumsChains.MAINNET.value.chain_id
-        in3 = In3Client(config=config)
+    def test_get_block_number(self):
+        in3 = In3Client()
+        block_number = in3.eth.block_number()
+        self.assertTrue(block_number>0)
 
 
+    def test_get_block_by_number(self):
+        in3 = In3Client()
+        number = int("0x6a5c56",16)
+        full = False
+        block = in3.eth.get_block_by_number(number, full)
+        self.assertEqual(number,block.number)
 
-        self.assertIsNotNone(in3)
-        self.assertIsNotNone(in3.eth)
-        self.assertIsNotNone(in3.ipfs)
+    def test_get_block_by_hash(self):
+        in3 = In3Client()
+        hash = 0x4c45aaaf983de4bd6cd81fb0a63f93d1eed148242e1a08fe477d4803d9181372
+        full = False
+        block = in3.eth.get_block_by_hash(hash, full)
+        self.assertIsNotNone(block)
 
+    def test_get_gas_price(self):
+        in3 = In3Client()
+        price = in3.eth.gas_price()
+        self.assertIsNotNone(price)

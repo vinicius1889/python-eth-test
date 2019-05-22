@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class EnumsExecutionType(Enum):
 
     NORMAL="NORMAL"
