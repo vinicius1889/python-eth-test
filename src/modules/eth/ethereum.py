@@ -26,7 +26,7 @@ class Ethereum:
 
     def __init__(self, in3_core:In3Core ):
         self.__block = Block(in3_core)
-        # self.__account = Account(in3_core)
+        self.__account = Account(in3_core)
         # self.__block_transaction_count = BlockTransactionCount(execution_type)
         # self.__transaction = Transaction(execution_type)
         # self.__uncle = Uncle(execution_type)
@@ -39,24 +39,25 @@ class Ethereum:
         # self.__logs = Logs(execution_type)
 
 
-
+    # Block services
     def block_number(self):
         return self.__block.number()
 
     def get_block_by_hash(self, hash, full=False):
-        return self.__block.by_hash(hash=hash, full=full)
+        return self.__block.by_hash(hash,full)
 
     def get_block_by_number(self, number, full=False):
         return self.__block.by_number(number=number, full=full)
 
+    # Accounts services
+    def accounts(self):
+        return self.__account.all()
 
-
-    # def accounts(self):
-    #     return self.__account.all()
-    #
+    # Gas services
     def gas_price(self):
         return self.__gas.price()
-    #
+
+
     # def get_balance(self, address, number):
     #     return self.__balance.of(address=address, number=number)
     #

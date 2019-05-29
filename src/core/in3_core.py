@@ -1,10 +1,10 @@
-from src.core.slib import libin3
-
+from src.core.slib import libin3p as libin3
+from src.enums.enums_eth_call import EnumsEthCall
+from typing import List
 
 class In3Core(object):
 
     in3 = None
-
 
     @staticmethod
     def init_in3():
@@ -21,17 +21,9 @@ class In3Core(object):
     def __init__(self):
         In3Core.init_in3()
 
-
     def in3_eth_blockNumber(self):
         return libin3.eth_blockNumber(In3Core.in3)
 
-    def in3_eth_get_block_by_hash(self, hash, full=False):
-        aux = libin3.uint8_tp_value(hash)
-        return libin3.eth_getBlockByHash(In3Core.in3, aux, full)
-
-    def in3_eth_get_block_by_number(self, number,full=False):
-        return libin3.eth_getBlockByNumber(In3Core.in3, number, full)
-
-    def in3_eth_get_gas_price(self):
-        return libin3.eth_gasPrice(In3Core.in3)
+    def in3_raw_rpc(self, method: str, params:str):
+        return libin3.in3_client_rpc_raw(self.in3,method,params)
 

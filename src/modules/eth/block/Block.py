@@ -2,13 +2,8 @@
 # eth_getBlockByHash
 # eth_getBlockByNumber
 
-# from src.utils.Utils import Mockable
-# from src.core.rpc_direct_core import RPCDirectCore
-# from src.utils.Utils import Config
-
-
+import json
 from src.enums.enums_eth_call import EnumsEthCall
-from src.enums.enums_execution_type import EnumsExecutionType
 from src.enums.enums_block_status import EnumsBlockStatus
 from src.core.in3_core import In3Core
 
@@ -19,13 +14,16 @@ class Block:
         self.in3_core = in3_core
 
     def number(self):
-        return self.in3_core.in3_eth_blockNumber()
+        return self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_NUMBER.value, "[]")
 
     def by_hash(self, hash, full=False):
-        return self.in3_core.in3_eth_get_block_by_hash(hash, full)
+        params = '["{0}", {1} ]'.format(hash,full.__str__().lower())
+        return self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_BY_HASH.value, params)
 
     def by_number(self, number, full=False):
         if isinstance(number, EnumsBlockStatus):
             number = number.value
-        return self.in3_core.in3_eth_get_block_by_number(number, full)
+        params = '["{0}",{1}]'.format(number,full.__str__().lower())
+        block = self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_BY_NUMBER.value, params)
+        return json.loads(block)
 

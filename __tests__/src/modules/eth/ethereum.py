@@ -1,34 +1,51 @@
 import unittest
 from src.modules.eth.ethereum import Ethereum
-from src.enums.enums_execution_type import EnumsExecutionType
-
+from src.enums.enums_block_status import EnumsBlockStatus
+from src.core.in3_core import In3Core
+import json
 
 
 class EthereumTestCase(unittest.TestCase):
 
 
+    def get_in3_core(self):
+        instance =  In3Core()
+        return Ethereum(instance)
+
+    # block ethereum functions
     def test_block_number(self):
-        eth = Ethereum(EnumsExecutionType.NORMAL)
-        number = eth.block_number()
-        self.assertIsNotNone(number)
+        self.assertIsNotNone(self.get_in3_core().block_number())
+
+    def test_block_by_hash(self):
+        eth = self.get_in3_core()
+        hash = "0xdcded60b27fc1fc3987e9416cb3dd81159552426ab6e027a308ea94985a7f258"
+        number = eth.get_block_by_hash(hash,False)
+        print(number)
+
+    def test_block_by_number(self):
+        eth = self.get_in3_core()
+        block = eth.get_block_by_number("0x6a5c56", full=False)
+        self.assertIsNotNone(block["author"])
+
+    def test_block_by_number_by_enum_status_latest(self):
+        eth = self.get_in3_core()
+        block = eth.get_block_by_number(EnumsBlockStatus.LATEST, full=False)
+        self.assertIsNotNone(block["author"])
+    # end of block ethereum functions
+
+    # Testing accounts
+    def test_get_all_accounts_if_it_works_without_test_any_account(self):
+        eth = self.get_in3_core()
+        accounts = eth.accounts()
+        self.assertIsNotNone(accounts)
+
+    # gas price
+    def test_gas_price(self):
+        eth = self.get_in3_core()
+        price = eth.gas_price()
+        self.assertIsNotNone(price)
 
 
-
-    # def test_block_by_hash(self):
-    #     eth = Ethereum(EnumsExecutionType.MOCK)
-    #     number = eth.__block.by_hash()
-    #     self.assertEqual(number['id'], 1)
-    #
-    # def test_block_by_number(self):
-    #     eth = Ethereum(EnumsExecutionType.RPC_DIRECT)
-    #     number = eth.__block.by_number("0xb2549a", full=False)
-    #     self.assertEqual(number['id'], 1)
-    #
-    # def test_block_by_number_using_enum_status_latest(self):
-    #     eth = Ethereum(EnumsExecutionType.RPC_DIRECT)
-    #     number = eth.__block.by_number(EnumsBlockStatus.LATEST, full=False)
-    #     self.assertEqual(number['id'], 1)
-    #
     # def test_block_transaction_count_by_number(self):
     #     eth =  Ethereum(EnumsExecutionType.RPC_DIRECT)
     #     number = eth.__block_transaction_count.byNumber(EnumsBlockStatus.LATEST)
@@ -144,10 +161,7 @@ class EthereumTestCase(unittest.TestCase):
     #     number = eth.__transaction.estimate(dto)
     #     self.assertEqual(number['id'], 1)
     #
-    # def test_get_all_accounts(self):
-    #     eth = Ethereum(execution_type=EnumsExecutionType.RPC_DIRECT)
-    #     accounts = eth.__account.all()
-    #     self.assertEqual(accounts['id'], 1)
+
     #
     # def test_balance_of(self):
     #     eth = Ethereum(execution_type=EnumsExecutionType.RPC_DIRECT)
@@ -162,10 +176,7 @@ class EthereumTestCase(unittest.TestCase):
     #     storage = eth.__storage.at(address, position, EnumsBlockStatus.LATEST)
     #     self.assertEqual(storage['id'], 1)
     #
-    # def test_gas_price(self):
-    #     eth = Ethereum(execution_type=EnumsExecutionType.RPC_DIRECT)
-    #     price = eth.__gas.price()
-    #     self.assertEqual(price['id'], 1)
+
     #
     # def test_new_filter(self):
     #     eth = Ethereum(execution_type=EnumsExecutionType.MOCK)
