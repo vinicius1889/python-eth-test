@@ -47,7 +47,7 @@ class EthereumTestCase(unittest.TestCase):
 
 
     # def test_block_transaction_count_by_number(self):
-    #     eth =  Ethereum(EnumsExecutionType.RPC_DIRECT)
+    #     eth =  self.get_in3_core()
     #     number = eth.__block_transaction_count.byNumber(EnumsBlockStatus.LATEST)
     #     self.assertEqual(number['id'],1)
     #

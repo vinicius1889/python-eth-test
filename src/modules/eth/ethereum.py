@@ -1,4 +1,4 @@
-# from src.modules.eth.block_transaction_count.block_transaction_count import BlockTransactionCount
+from src.modules.eth.block_transaction_count.block_transaction_count import BlockTransactionCount
 # from src.modules.eth.transaction.transaction import Transaction
 # from src.modules.eth.uncle.uncle import Uncle
 # from src.modules.eth.code.code import Code
@@ -27,7 +27,7 @@ class Ethereum:
     def __init__(self, in3_core:In3Core ):
         self.__block = Block(in3_core)
         self.__account = Account(in3_core)
-        # self.__block_transaction_count = BlockTransactionCount(execution_type)
+        self.__block_transaction_count = BlockTransactionCount(in3_core)
         # self.__transaction = Transaction(execution_type)
         # self.__uncle = Uncle(execution_type)
         # self.__code = Code(execution_type)

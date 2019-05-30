@@ -1,40 +1,15 @@
-# eth_blockNumber
-# eth_getBlockByHash
-# eth_getBlockByNumber
-
-from src.utils.Utils import Mockable
-from src.core.rpc_direct_core import RPCDirectCore
-from src.utils.Utils import Config
-
-
 from src.enums.enums_eth_call import EnumsEthCall
-
-from src.enums.enums_execution_type import EnumsExecutionType
-from src.enums.enums_block_status import EnumsBlockStatus
+from src.core.in3_core import In3Core
 
 
 class Storage(object):
 
-    def __init__(self, execution_type: EnumsExecutionType):
-        self.execution_type = execution_type
+    def __init__(self, in3_core: In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("storage")
     def at(self, address, position, block_number):
-        if isinstance(block_number, EnumsBlockStatus):
-            number = block_number.value
-
-        return StorageService().call_storage_at(address, position,number)
-
-
-
-class StorageService:
-
-
-    def call_storage_at(self, address, position, number):
         params = []
         params.append(address)
         params.append(position)
-        params.append(number)
-
-        if Config.execution_type==EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_STORAGE_AT, params=params)
+        params.append(block_number)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_STORAGE_AT, params)

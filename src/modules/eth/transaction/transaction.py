@@ -10,130 +10,64 @@ from src.dto.transaction_dto import TransactionDTO
 from src.dto.call_dto import CallDTO
 
 
+from src.core.in3_core import In3Core
+
+
 class Transaction:
 
-    def __init__(self, execution_type=EnumsExecutionType.NORMAL):
-        self.execution_type = execution_type
+    def __init__(self, in3_core:In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("transaction.byHash")
+
     def by_hash(self, hash):
-        return TransactionService().call_transaction_by_hash(hash)
-
-    @Mockable("transaction.byBlockHashAndIndex")
-    def by_blockhash_and_index(self, blockhash, index="0x0"):
-        return TransactionService().call_transaction_by_blockhash_and_index(blockhash, index)
-
-    @Mockable("transaction.byBlockNumberAndIndex")
-    def by_blocknumber_and_index(self, blocknumber, index="0x0"):
-        if isinstance(blocknumber, EnumsBlockStatus):
-            blocknumber = blocknumber.value
-
-        return TransactionService().call_transaction_by_blocknumber_and_index(blocknumber, index)
-
-    @Mockable("transaction.receiptByHash")
-    def receipt(self, hash):
-        return TransactionService().call_receipt_by_transaction_hash(hash)
-
-    @Mockable("transaction.pending")
-    def pending(self):
-        return TransactionService().call_transaction_pending()
-
-    @Mockable("transaction.count")
-    def count(self, address, number):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-        return TransactionService().call_transaction_count(address, number)
-
-    @Mockable("transaction.send")
-    def send(self, transaction: TransactionDTO):
-        return TransactionService().call_transaction_send(transaction)
-
-    @Mockable("transaction.send")
-    def send_raw(self, data):
-        return TransactionService().call_raw_transaction_send(data)
-
-
-    @Mockable("transaction.call")
-    def call(self, dto:CallDTO, number):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-        return TransactionService().call_message(dto,number)
-
-    @Mockable("transaction.estimate")
-    def estimate(self, transaction: TransactionDTO):
-        return TransactionService().call_estimate_gas(transaction)
-
-
-class TransactionService(object):
-
-    def call_transaction_by_hash(self,hash):
         params = []
         params.append(hash)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_BY_HASH, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_BY_HASH, params=params)
-
-    def call_transaction_by_blockhash_and_index(self, blockhash,index):
+    def by_blockhash_and_index(self, blockhash, index="0x0"):
         params = []
         params.append(blockhash)
         params.append(index)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_BY_BLOCKHASH_AND_INDEX, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_BY_BLOCKHASH_AND_INDEX, params=params)
-
-
-    def call_transaction_by_blocknumber_and_index(self, blocknumber,index):
+    def by_blocknumber_and_index(self, blocknumber, index="0x0"):
         params = []
         params.append(blocknumber)
         params.append(index)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_BY_BLOCKNUMBER_AND_INDEX, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_BY_BLOCKNUMBER_AND_INDEX, params=params)
-
-
-    def call_receipt_by_transaction_hash(self,hash):
+    def receipt(self, hash):
         params = []
         params.append(hash)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_RECEIPT_BY_HASH, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_RECEIPT_BY_HASH, params=params)
+    def pending(self):
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_PENDING, [])
 
-    def call_transaction_pending(self):
+    def count(self, address, number):
         params = []
-
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_PENDING, params=params)
-
-    def call_transaction_count(self, address, number):
-        params=[]
         params.append(address)
         params.append(number)
-        if Config.execution_type== EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_COUNT, params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_COUNT, params)
 
-    def call_transaction_send(self, transactionDTO:TransactionDTO):
+    def send(self, transaction: TransactionDTO):
         params = []
-        params.append(transactionDTO.toJson())
-        if Config.execution_type== EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_SEND, params=params)
+        params.append(transaction.toJson())
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_SEND, params)
 
-    def call_raw_transaction_send(self, data):
+    def send_raw(self, data):
         params = []
         params.append(data)
-        if Config.execution_type== EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_SEND_RAW, params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_SEND_RAW, params)
 
-
-    def call_message(self, dto:CallDTO, number):
+    def call(self, dto:CallDTO, number):
         params = []
         params.append(dto.toJson())
         params.append(number)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_CALL, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_CALL, params=params)
-
-    def call_estimate_gas(self, dto: TransactionDTO):
+    def estimate(self, transaction: TransactionDTO):
         params = []
-        params.append(dto.toJson())
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_TRANSACTION_ESTIMATE, params=params)
+        params.append(transaction.toJson())
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_TRANSACTION_ESTIMATE, params)
+

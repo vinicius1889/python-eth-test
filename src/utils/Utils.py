@@ -4,7 +4,19 @@ from pathlib import Path
 from os.path import sep
 import os
 import json
+from enum import Enum
+
 from src.enums.enums_execution_type import EnumsExecutionType
+
+
+def params_to_json_string(params:List):
+    param_aux = []
+    for p in params:
+        p_aux = p
+        if isinstance(p, Enum):
+            p_aux = p.value
+        param_aux.append(p_aux)
+    return json.dumps(param_aux)
 
 
 def get_mock(item):

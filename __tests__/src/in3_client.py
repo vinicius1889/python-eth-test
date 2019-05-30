@@ -1,6 +1,8 @@
 from unittest import TestCase
 from src.in3_client import In3Client
 from src.enums.enums_eth_call import EnumsEthCall
+import json
+from enum import Enum
 
 class In3ClientTestCase(TestCase):
 
@@ -8,6 +10,16 @@ class In3ClientTestCase(TestCase):
     def test_ethereum_instance_is_not_null(self):
         in3 = In3Client()
         self.assertIsNotNone(in3)
+
+
+    def test_json(self):
+        params = ["0x123", True]
+        string = json.dumps(params)
+        print(string)
+        print(type(EnumsEthCall.RPC_GAS_PRICE))
+        print(isinstance(EnumsEthCall.RPC_GAS_PRICE, Enum))
+        aux = EnumsEthCall.RPC_GAS_PRICE
+
 
 
     # def test_get_block_number(self):

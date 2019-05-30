@@ -8,75 +8,36 @@ from src.enums.enums_eth_call import EnumsEthCall
 from src.enums.enums_execution_type import EnumsExecutionType
 from src.enums.enums_block_status import EnumsBlockStatus
 
-
+from src.core.in3_core import In3Core
 
 
 class Uncle(object):
 
-    def __init__(self, execution_type:EnumsEthCall):
-        self.execution_type = execution_type
+    def __init__(self, in3_core:In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("uncle.countByBlockHash")
-    def countByBlockHash(self, hash):
-        return UncleService().call_uncle_count_by_block_hash(hash)
-
-
-    @Mockable("uncle.countByBlockNumber")
-    def countByBlockNumber(self, number):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-
-        return UncleService().call_uncle_count_by_block_number(number=number)
-
-
-    @Mockable("uncle.byBlockHashAndIndex")
-    def byBlockHashAndIndex(self, hash, index):
-        return UncleService().call_uncle_by_blockhash_and_index(hash, index)
-
-
-    @Mockable("uncle.byBlockNumberAndIndex")
-    def byBlockNumberAndIndex(self, number, index):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-
-        return UncleService().call_uncle_by_blocknumber_and_index(number, index)
-
-
-class UncleService(object):
-
-    def call_uncle_count_by_block_hash(self, hash):
+    def count_by_blockhash(self, hash):
         params = []
         params.append(hash)
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_UNCLE_COUNT_BY_BLOCK_HASH,
-                                            params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_UNCLE_COUNT_BY_BLOCK_HASH, params)
 
 
-    def call_uncle_count_by_block_number(self, number):
+    def count_by_blocknumber(self, number):
         params = []
         params.append(number)
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_UNCLE_COUNT_BY_BLOCK_NUMBER,
-                                            params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_UNCLE_COUNT_BY_BLOCK_NUMBER, params)
 
 
-    def call_uncle_by_blockhash_and_index(self, hash, index):
+    def by_blockhash_and_index(self, hash, index):
         params = []
         params.append(hash)
         params.append(index)
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_UNCLE_BY_BLOCKHASH_AND_INDEX,
-                                            params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_UNCLE_BY_BLOCKHASH_AND_INDEX, params)
 
-    def call_uncle_by_blocknumber_and_index(self, number, index):
+
+    def by_blocknumber_and_index(self, number, index):
         params = []
         params.append(number)
         params.append(index)
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_UNCLE_BY_BLOCKNUMBER_AND_INDEX,
-                                            params=params)
-
-
-
-
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_UNCLE_BY_BLOCKNUMBER_AND_INDEX, params)
 

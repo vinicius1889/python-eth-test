@@ -1,5 +1,5 @@
 from unittest import TestCase
-from src.core.slib import libin3
+from src.core.slib import libin3p as libin3
 
 
 class LibTestsCase(TestCase):

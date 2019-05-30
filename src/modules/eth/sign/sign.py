@@ -1,34 +1,17 @@
-from src.utils.Utils import Mockable
-from src.core.rpc_direct_core import RPCDirectCore
-from src.utils.Utils import Config
-
-
 from src.enums.enums_eth_call import EnumsEthCall
-
-from src.enums.enums_execution_type import EnumsExecutionType
+from src.core.in3_core import  In3Core
 
 
 class Sign(object):
 
-    def __init__(self, execution_type:EnumsEthCall):
-        self.execution_type = execution_type
+    def __init__(self, in3_core: In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("sign.byAddress")
-    def byAddress(self, address, data):
-        return SignService().call_sign_by_address(address, data)
-
-
-class SignService(object):
-
-    def call_sign_by_address(self, address, data):
+    def by_address(self, address, data):
         params = []
         params.append(address)
         params.append(data)
-
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_SIGN_BY_ADDRESS,
-                                            params=params)
-
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_SIGN_BY_ADDRESS, params)
 
 
 

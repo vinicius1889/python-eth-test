@@ -1,38 +1,16 @@
-# eth_blockNumber
-# eth_getBlockByHash
-# eth_getBlockByNumber
-
-from src.utils.Utils import Mockable
-from src.core.rpc_direct_core import RPCDirectCore
-from src.utils.Utils import Config
 
 
 from src.enums.enums_eth_call import EnumsEthCall
-
-from src.enums.enums_execution_type import EnumsExecutionType
-from src.enums.enums_block_status import EnumsBlockStatus
+from src.core.in3_core import In3Core
 
 
 class Code(object):
 
-    def __init__(self, execution_type: EnumsExecutionType):
-        self.execution_type = execution_type
+    def __init__(self, in3_core: In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("code.byAddressAndBlockNumber")
-    def byAddressAndBlockNumber(self, address, number):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-
-        return CodeService().call_code_by_address(address, number)
-
-
-class CodeService:
-
-
-    def call_code_by_address(self, address, number):
+    def by_address_and_number(self, address, number):
         params = []
         params.append(address)
         params.append(number)
-
-        if Config.execution_type==EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_CODE_BY_ADDRESS_AND_NUMBER, params=params)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_CODE_BY_ADDRESS_AND_NUMBER, params)

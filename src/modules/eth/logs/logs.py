@@ -1,55 +1,26 @@
-# eth_blockNumber
-# eth_getBlockByHash
-# eth_getBlockByNumber
-
-from src.utils.Utils import Mockable
-from src.core.rpc_direct_core import RPCDirectCore
-from src.utils.Utils import Config
-
 
 from src.enums.enums_eth_call import EnumsEthCall
-
-from src.enums.enums_execution_type import EnumsExecutionType
 from src.dto.log_filter_dto import LogFilterDTO
+from src.core.in3_core import In3Core
 
 class Logs(object):
 
-    def __init__(self, execution_type: EnumsExecutionType):
-        self.execution_type = execution_type
+    def __init__(self, in3_core: In3Core):
+        self.in3_core = in3_core
 
-    @Mockable("logs.filter_changes")
     def filter_changes(self, filter_id):
-        return LogsService().call_filter_change_by_filter_id(filter_id)
-
-    @Mockable("logs.filter_changes")
-    def filter_id(self, filter_id):
-        return LogsService().call_filter_logs_by_filter_id(filter_id)
-
-    @Mockable("logs.filter_changes")
-    def filter(self, filter:LogFilterDTO):
-        return LogsService().call_filter_logs_by_filter(filter)
-
-
-class LogsService:
-
-
-    def call_filter_change_by_filter_id(self, filter_id):
         params = []
         params.append(filter_id)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_LOGS_FILTER_CHANGES, params)
 
-        if Config.execution_type==EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_LOGS_FILTER_CHANGES, params=params)
-
-    def call_filter_logs_by_filter_id(self, filter_id):
+    def by_filter_id(self, filter_id):
         params = []
         params.append(filter_id)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_LOGS_FILTER_ID, params)
 
-        if Config.execution_type==EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_LOGS_FILTER, params=params)
-
-    def call_filter_logs_by_filter(self, filter):
+    def by_filter(self, filter:LogFilterDTO):
         params = []
         params.append(filter.to_json(True))
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_LOGS_FILTER, params)
 
-        if Config.execution_type == EnumsExecutionType.RPC_DIRECT:
-            return RPCDirectCore().rpc_call(enums_eth_call=EnumsEthCall.RPC_LO, params=params)
+
