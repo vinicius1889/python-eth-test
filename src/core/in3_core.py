@@ -22,9 +22,6 @@ class In3Core(object):
     def __init__(self):
         In3Core.init_in3()
 
-    def in3_eth_blockNumber(self):
-        return libin3.eth_blockNumber(In3Core.in3)
-
     def in3_raw_rpc(self, method: str, params:str):
         return libin3.in3_client_rpc_raw(self.in3,method,params)
 
