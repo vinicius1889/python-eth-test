@@ -22,10 +22,13 @@ class In3ClientTestCase(TestCase):
 
 
 
-    # def test_get_block_number(self):
-    #     in3 = In3Client()
-    #     block_number = in3.eth.block_number()
-    #     self.assertTrue(block_number>0)
+    def test_get_block_number(self):
+        in3 = In3Client()
+        block_number = in3.eth.block_number()
+        self.assertTrue(block_number>0)
+
+
+
     #
     #
     # def test_get_block_by_number(self):
