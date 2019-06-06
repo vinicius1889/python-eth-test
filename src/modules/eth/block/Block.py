@@ -17,13 +17,15 @@ class Block:
         return self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_NUMBER.value, "[]")
 
     def by_hash(self, hash, full=False):
-        params = '["{0}", {1} ]'.format(hash,full.__str__().lower())
-        return self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_BY_HASH.value, params)
+        params = []
+        params.append(hash)
+        params.append(full)
+        return self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_BLOCK_BY_HASH, params)
 
     def by_number(self, number, full=False):
-        if isinstance(number, EnumsBlockStatus):
-            number = number.value
-        params = '["{0}",{1}]'.format(number,full.__str__().lower())
-        block = self.in3_core.in3_raw_rpc(EnumsEthCall.RPC_BLOCK_BY_NUMBER.value, params)
+        params = []
+        params.append(number)
+        params.append(full)
+        block = self.in3_core.in3_raw_rpc_wrapper(EnumsEthCall.RPC_BLOCK_BY_NUMBER, params)
         return json.loads(block)
 

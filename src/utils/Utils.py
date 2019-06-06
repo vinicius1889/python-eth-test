@@ -7,6 +7,8 @@ import json
 from enum import Enum
 
 from src.enums.enums_execution_type import EnumsExecutionType
+from src.domain.in3_number import In3Number
+from src.domain.bytes_types import BytesT
 
 
 def params_to_json_string(params:List):
@@ -15,6 +17,11 @@ def params_to_json_string(params:List):
         p_aux = p
         if isinstance(p, Enum):
             p_aux = p.value
+        if isinstance(p, In3Number):
+            p_aux = p.to_hex()
+        if isinstance(p, BytesT):
+            p_aux = p.get_data()
+
         param_aux.append(p_aux)
     return json.dumps(param_aux)
 
