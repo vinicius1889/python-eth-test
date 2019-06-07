@@ -12,6 +12,9 @@ class Bytes32TestCase(TestCase):
         bytes32 = Bytes32('0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238')
         self.assertEqual('b903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238', bytes32.get_hash_without_0x())
 
+    def test(self):
+        Bytes32('0xc5bcb31100d8993fd46a219770545841a64aa7e5076000d5ad81524a8217351b')
+
 
 class Bytes20TestCase(TestCase):
 

@@ -3,9 +3,6 @@ from abc import abstractmethod
 
 class BytesT:
 
-    def __init__(self, data:str):
-        self.__validate(data)
-        self.set_data(data)
 
     def get_data(self):
         return self.__data
@@ -24,8 +21,11 @@ class BytesT:
 class Bytes32(BytesT):
 
     def __init__(self, data: str):
-        super().__init__( data)
+        super().__init__()
+        self.__validate(data)
+        self.set_data(data)
 
+    @abstractmethod
     def __validate(self, data):
         if len(data) is not 66:
             raise Exception('Invalid hash')
@@ -36,8 +36,11 @@ class Bytes32(BytesT):
 class Bytes20(BytesT):
 
     def __init__(self, data:str):
-        super().__init__(data)
+        super().__init__()
+        self.__validate(data)
+        self.set_data(data)
 
+    @abstractmethod
     def __validate(self, data):
         if len(data) is not 42:
             raise Exception('Invalid hash length')
