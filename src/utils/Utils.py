@@ -59,6 +59,7 @@ class Mockable(object):
 class Config:
 
     execution_type = EnumsExecutionType.NORMAL
+    debugging = False
 
 
 class JSONConfig:

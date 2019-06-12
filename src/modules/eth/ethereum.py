@@ -23,9 +23,11 @@ from src.modules.eth.block.Block import Block
 from src.domain.in3_number import In3Number
 from src.domain.bytes_types import Bytes32, Bytes20
 
+
 class Ethereum:
 
     def __init__(self, in3_core:In3Core ):
+
         self.__block = Block(in3_core)
         self.__account = Account(in3_core)
         self.__block_transaction_count = BlockTransactionCount(in3_core)

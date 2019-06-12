@@ -6,6 +6,7 @@ import json
 from src.domain.in3_number import In3Number
 from src.domain.bytes_types import Bytes32,Bytes20
 from src.dto.transaction_dto import TransactionDTO
+from src.utils.Utils import Config
 
 
 class EthereumTestCase(unittest.TestCase):
@@ -17,13 +18,14 @@ class EthereumTestCase(unittest.TestCase):
 
     # block ethereum functions
     def test_block_number(self):
+        Config.debugging  = True
         self.assertIsNotNone(self.get_in3_core().block_number())
 
     def test_block_by_hash(self):
         eth = self.get_in3_core()
         hash = Bytes32('0xdcded60b27fc1fc3987e9416cb3dd81159552426ab6e027a308ea94985a7f258')
         number = eth.get_block_by_hash(hash,False)
-        print(number)
+        print('>>>',number)
 
     def test_block_by_number(self):
         eth = self.get_in3_core()
@@ -33,7 +35,10 @@ class EthereumTestCase(unittest.TestCase):
 
     def test_block_by_number_by_enum_status_latest(self):
         eth = self.get_in3_core()
-        block = eth.get_block_by_number(EnumsBlockStatus.LATEST, full=False)
+        Config.debugging = True
+        n = In3Number(0x6a5c56)
+        block = eth.get_block_by_number(n, full=False)
+        print("author here -> ", block["author"])
         self.assertIsNotNone(block["author"])
     # end of block ethereum functions
 
@@ -45,8 +50,11 @@ class EthereumTestCase(unittest.TestCase):
 
     # gas price
     def test_gas_price(self):
+        Config.debugging  =True
+
         eth = self.get_in3_core()
         price = eth.gas_price()
+        print(price)
         self.assertIsNotNone(price)
 
 

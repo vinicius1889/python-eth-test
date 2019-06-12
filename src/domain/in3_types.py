@@ -1,5 +1,6 @@
 from typing import List, Mapping
 from src.utils.Utils import JSONConfig
+import json
 
 class IN3NodeWeight:
 
@@ -91,3 +92,24 @@ class IN3Config:
         in3_config.__dict__.update(JSONConfig.get_in3_config())
         return in3_config
 
+
+
+class In3Result:
+
+
+    def __init__(self, request:str, success:bool, result:str,result_code:int):
+        self.request = request
+        self.success = success
+        self.result = result
+        self.result_code = result_code
+
+    def get_json_request(self):
+        return json.loads(self.request)
+
+    def get_json_result(self):
+        return json.loads(self.result)
+
+
+class In3CallException(Exception):
+    def __init__(self):
+        super(In3CallException, self).__init__()

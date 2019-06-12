@@ -112,9 +112,47 @@ def init_client(c):
     return _libin3p.init_client(c)
 init_client = _libin3p.init_client
 
-def in3_raw_rpc(c, method, params):
-    return _libin3p.in3_raw_rpc(c, method, params)
+def in3_raw_rpc(c, method, params, wrapper):
+    return _libin3p.in3_raw_rpc(c, method, params, wrapper)
 in3_raw_rpc = _libin3p.in3_raw_rpc
+class WrapperCall(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, WrapperCall, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, WrapperCall, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["request"] = _libin3p.WrapperCall_request_set
+    __swig_getmethods__["request"] = _libin3p.WrapperCall_request_get
+    if _newclass:
+        request = _swig_property(_libin3p.WrapperCall_request_get, _libin3p.WrapperCall_request_set)
+    __swig_setmethods__["success"] = _libin3p.WrapperCall_success_set
+    __swig_getmethods__["success"] = _libin3p.WrapperCall_success_get
+    if _newclass:
+        success = _swig_property(_libin3p.WrapperCall_success_get, _libin3p.WrapperCall_success_set)
+    __swig_setmethods__["result"] = _libin3p.WrapperCall_result_set
+    __swig_getmethods__["result"] = _libin3p.WrapperCall_result_get
+    if _newclass:
+        result = _swig_property(_libin3p.WrapperCall_result_get, _libin3p.WrapperCall_result_set)
+    __swig_setmethods__["result_code"] = _libin3p.WrapperCall_result_code_set
+    __swig_getmethods__["result_code"] = _libin3p.WrapperCall_result_code_get
+    if _newclass:
+        result_code = _swig_property(_libin3p.WrapperCall_result_code_get, _libin3p.WrapperCall_result_code_set)
+    __swig_setmethods__["debug"] = _libin3p.WrapperCall_debug_set
+    __swig_getmethods__["debug"] = _libin3p.WrapperCall_debug_get
+    if _newclass:
+        debug = _swig_property(_libin3p.WrapperCall_debug_get, _libin3p.WrapperCall_debug_set)
+
+    def __init__(self):
+        this = _libin3p.new_WrapperCall()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _libin3p.delete_WrapperCall
+    __del__ = lambda self: None
+WrapperCall_swigregister = _libin3p.WrapperCall_swigregister
+WrapperCall_swigregister(WrapperCall)
+
 class rpc_response(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, rpc_response, name, value)
@@ -580,8 +618,8 @@ def in3_free(a):
     return _libin3p.in3_free(a)
 in3_free = _libin3p.in3_free
 
-def in3_client_rpc_raw(c, method, params):
-    return _libin3p.in3_client_rpc_raw(c, method, params)
+def in3_client_rpc_raw(c, method, params, wrapper):
+    return _libin3p.in3_client_rpc_raw(c, method, params, wrapper)
 in3_client_rpc_raw = _libin3p.in3_client_rpc_raw
 class uint256_t(_object):
     __swig_setmethods__ = {}
@@ -907,6 +945,26 @@ in3p_assign = _libin3p.in3p_assign
 def in3p_value(obj):
     return _libin3p.in3p_value(obj)
 in3p_value = _libin3p.in3p_value
+
+def new_WrapperCallp():
+    return _libin3p.new_WrapperCallp()
+new_WrapperCallp = _libin3p.new_WrapperCallp
+
+def copy_WrapperCallp(value):
+    return _libin3p.copy_WrapperCallp(value)
+copy_WrapperCallp = _libin3p.copy_WrapperCallp
+
+def delete_WrapperCallp(obj):
+    return _libin3p.delete_WrapperCallp(obj)
+delete_WrapperCallp = _libin3p.delete_WrapperCallp
+
+def WrapperCallp_assign(obj, value):
+    return _libin3p.WrapperCallp_assign(obj, value)
+WrapperCallp_assign = _libin3p.WrapperCallp_assign
+
+def WrapperCallp_value(obj):
+    return _libin3p.WrapperCallp_value(obj)
+WrapperCallp_value = _libin3p.WrapperCallp_value
 
 def new_uint8_tp():
     return _libin3p.new_uint8_tp()

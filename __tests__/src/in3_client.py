@@ -3,6 +3,7 @@ from src.in3_client import In3Client
 from src.enums.enums_eth_call import EnumsEthCall
 import json
 from enum import Enum
+from src.domain.in3_number import In3Number
 
 class In3ClientTestCase(TestCase):
 
@@ -27,7 +28,18 @@ class In3ClientTestCase(TestCase):
         block_number = in3.eth.block_number()
         self.assertTrue(block_number>0)
 
+    def test_number(self):
+        n = In3Number(7938089)
+        self.assertEqual(7938089,n.to_int())
 
+    def test_number_hex(self):
+        n = In3Number(0x792029)
+        self.assertEqual(7938089, n.to_int())
+
+    def test_number_hex_2(self):
+        n = In3Number('0x792029')
+        self.assertEqual(7938089, n.to_int())
+        self.assertEqual('0x792029', n.to_hex())
 
     #
     #
